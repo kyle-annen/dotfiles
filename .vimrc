@@ -1,5 +1,4 @@
 "Colors
-colorscheme Monokai      " awesome colorschem
 syntax enable            " enable syntax processing
 
 "Enable vim autosave
