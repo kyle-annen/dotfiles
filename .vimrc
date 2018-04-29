@@ -1,5 +1,6 @@
 "Colors
 syntax enable            " enable syntax processing
+set shell=/bin/bash
 
 "Enable vim autosave
 let g:auto_save = 0
@@ -20,20 +21,14 @@ set expandtab            " tabs are spaces
 
 "UI Config
 set number               " show line numbers
-"set relativenumber
 set number
 set showcmd              " show command in bottom bar
 set cursorline           " highlight current line
 set lazyredraw           " only redraw when needed
 set showmatch 		 " highlight matching [{()}]
 
+" keep 4 lines at top and bottom of editor on scrolling
 set scrolloff=4
-
-" set cursor thin on insert
-if $TERM_PROGRAM =~ "iTerm"
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
-endif
 
 "Searching
 set incsearch    " search as characters are entered
@@ -55,7 +50,7 @@ vnoremap <leader>k :m '<-2<CR>gv=gv
 "move lines up and down
 " set the mouse usable in vim
 :set mouse=a
-" smooth mouse scrolling`
+" smooth mouse scrolling
 :map <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
 :map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
 " use cursor line in insert mode
@@ -66,10 +61,10 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 nnoremap j gj
 nnoremap k gk
 " jk is escape
-inoremap jk <esc>
+:imap jk <esc>
 " enable backspace on insert mode
 set backspace=indent,eol,start
-" leader is comma
+" leader is space
 let mapleader="\<Space>"
 
 " toggle gundo
@@ -104,9 +99,6 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"
 Plugin 'vim-scripts/vim-auto-save'
 " git in vim
 Plugin 'tpope/vim-fugitive'
@@ -123,7 +115,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " scala sytax highlighting
 Plugin 'derekwyatt/vim-scala'
 " yaml syntax
-Plugin 'stephpy/vim-yaml'
+Plugin 'avakhov/vim-yaml'
 " hightlight trailing whitespace
 Plugin 'bronson/vim-trailing-whitespace'
 " parenthesis highlighting
@@ -150,8 +142,6 @@ Plugin 'auto-pairs-gentle'
 Plugin 'terryma/vim-smooth-scroll'
 " ruby plugins
 Plugin 'vim-ruby/vim-ruby'
-" markdown plugins
-Plugin 'suan/vim-instant-markdown'
 " Elm plugin
 Plugin 'elmcast/elm-vim'
 " Elm plugin
@@ -166,7 +156,8 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'jimenezrick/vimerl'
 " Typescript Plugin
 Plugin 'ianks/vim-tsx'
-
+" Async execution library needed for haskell stuff
+Plugin 'Shougu/vimproc.vim'
 
 
 
