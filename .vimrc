@@ -3,10 +3,15 @@ syntax enable            " enable syntax processing
 set shell=/bin/bash
 
 "Enable vim autosave
-let g:auto_save = 0
+let g:auto_save = 1
 "Enable elm format
 let g:elm_format_autosave = 1
 
+"Set copy/paste to work with clipboard
+set clipboard=unnamed
+
+"Disable swap file
+set noswapfile
 
 "Spaces and Indents
 set tabstop=2            " number of visual spaces per TAB
@@ -25,7 +30,7 @@ set number
 set showcmd              " show command in bottom bar
 set cursorline           " highlight current line
 set lazyredraw           " only redraw when needed
-set showmatch 		 " highlight matching [{()}]
+set showmatch 		       " highlight matching [{()}]
 
 " keep 4 lines at top and bottom of editor on scrolling
 set scrolloff=4
@@ -45,6 +50,11 @@ inoremap <leader>j <Esc>:m .+1<CR>==gi
 inoremap <leader>k <Esc>:m .-2<CR>==gi
 vnoremap <leader>j :m '>+1<CR>gv=gv
 vnoremap <leader>k :m '<-2<CR>gv=gv
+
+"space f opens/closes nerdtree
+nnoremap <leader>f :NERDTree<CR>
+" dot files are shown in vim
+let NERDTreeShowHidden=1
 
 "Movement
 "move lines up and down
@@ -75,6 +85,8 @@ nnoremap <Leader>u :GundoToggle<CR>
 nnoremap <Leader>w :w<CR>
 " remap quit
 nnoremap <Leader>q :q<CR>
+" open NERDTree
+nnoremap <Leader>f :NERDTree<CR>
 " save session
 nnoremap <Leader>s :mksession<CR>
 " enable smooth scrolling
@@ -99,6 +111,7 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+" autosave in vim
 Plugin 'vim-scripts/vim-auto-save'
 " git in vim
 Plugin 'tpope/vim-fugitive'
@@ -122,7 +135,7 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'kien/rainbow_parentheses.vim'
 " autoformat
 Plugin 'chiel92/vim-autoformat'
-" supertab for code completion
+" use supertab for code completion
 Plugin 'ervandew/supertab'
 " interprets file by extension
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -144,9 +157,7 @@ Plugin 'terryma/vim-smooth-scroll'
 Plugin 'vim-ruby/vim-ruby'
 " Elm plugin
 Plugin 'elmcast/elm-vim'
-" Elm plugin
-Plugin 'avh4/elm-format'
-" Elixir plubin
+" Elixir plugin
 Plugin 'elixir-lang/vim-elixir'
 " Javascript plugin
 Plugin 'pangloss/vim-javascript'
@@ -156,9 +167,8 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'jimenezrick/vimerl'
 " Typescript Plugin
 Plugin 'ianks/vim-tsx'
-" Async execution library needed for haskell stuff
-Plugin 'Shougu/vimproc.vim'
-
+" Haskell
+Plugin 'neovimhaskell/haskell-vim'
 
 
 call vundle#end()            " required
@@ -175,6 +185,9 @@ let indent_guides_guide_size = 2
 hi IndentGuidesOdd ctermbg=236
 hi IndentGuidesEven ctermbg=237
 
+" Indentation for haskell
+au FileType haskell setl sw=2 sts=2 et
+
 " ================  syntastic settings ============
 
 set statusline+=%#warningmsg#
@@ -185,6 +198,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:elm_syntastic_show_warnings = 1
+
 
 let g:syntastic_elixir_checkers = ['syntastic-checkers-elixir']
 
