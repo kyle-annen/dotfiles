@@ -1,36 +1,26 @@
-"Colors
-syntax enable            " enable syntax processing
+syntax enable                                               " enable syntax processing
 set shell=/bin/bash
 
-"Enable vim autosave
-let g:auto_save = 1
-"Enable elm format
-let g:elm_format_autosave = 1
-
-"Set copy/paste to work with clipboard
-set clipboard=unnamed
-
-"Disable swap file
-set noswapfile
-
-"Spaces and Indents
-set tabstop=2            " number of visual spaces per TAB
-set softtabstop=2        " number of spaces in tab when editing
-set expandtab            " tabs are spaces
+let g:auto_save = 1                                         "Enable vim autosave
+let g:auto_save_in_insert_mode = 0                          "Set autosave to not work in insert mode
+let g:elm_format_autosave = 1                               "Enable elm format
+set clipboard=unnamed                                       "Set copy/paste to work with clipboard
+set noswapfile                                              "Disable swap file
+set tabstop=2                                               "number of visual spaces per TAB
+set softtabstop=2                                           "number of spaces in tab when editing
+set expandtab                                               "tabs are spaces
 
 "Set indentation ruby
 :autocmd Filetype ruby set softtabstop=2
 :autocmd Filetype ruby set sw=2
 :autocmd Filetype ruby set ts=2
 
-
 "UI Config
-set number               " show line numbers
-set number
-set showcmd              " show command in bottom bar
-set cursorline           " highlight current line
-set lazyredraw           " only redraw when needed
-set showmatch 		       " highlight matching [{()}]
+set number                                                  " show line numbers
+set showcmd                                                 " show command in bottom bar
+set cursorline                                              " highlight current line
+set lazyredraw                                              " only redraw when needed
+set showmatch 		                                          " highlight matching [{()}]
 
 " keep 4 lines at top and bottom of editor on scrolling
 set scrolloff=4
@@ -111,82 +101,51 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-" autosave in vim
-Plugin 'vim-scripts/vim-auto-save'
-" git in vim
-Plugin 'tpope/vim-fugitive'
-" graphic undo
-Plugin 'sjl/gundo.vim'
-" Fuzzy find files
-Plugin 'kien/ctrlp.vim'
-" folder tree navigation
-Plugin 'scrooloose/nerdtree'
-" easily comment code
-Plugin 'scrooloose/nerdcommenter'
-" identation identification
-Plugin 'nathanaelkane/vim-indent-guides'
-" scala sytax highlighting
-Plugin 'derekwyatt/vim-scala'
-" yaml syntax
-Plugin 'avakhov/vim-yaml'
-" hightlight trailing whitespace
-Plugin 'bronson/vim-trailing-whitespace'
-" parenthesis highlighting
-Plugin 'kien/rainbow_parentheses.vim'
-" autoformat
-Plugin 'chiel92/vim-autoformat'
-" use supertab for code completion
-Plugin 'ervandew/supertab'
-" interprets file by extension
-Plugin 'MarcWeber/vim-addon-mw-utils'
-" git info in the gutter
-Plugin 'airblade/vim-gitgutter'
-" vim colors
-Plugin 'flazz/vim-colorschemes'
-" better parenthesis support
-Plugin 'tpope/vim-surround'
-" better status line
-Plugin 'itchyny/lightline.vim'
-" sytastic sytax checking
-Plugin 'vim-syntastic/syntastic'
-" quotes/para/brackets in pairs
-Plugin 'auto-pairs-gentle'
-" smooth scrolling
-Plugin 'terryma/vim-smooth-scroll'
-" ruby plugins
-Plugin 'vim-ruby/vim-ruby'
-" Elm plugin
-Plugin 'elmcast/elm-vim'
-" Elixir plugin
-Plugin 'elixir-lang/vim-elixir'
-" Javascript plugin
-Plugin 'pangloss/vim-javascript'
-" clojure plugins
-Plugin 'tpope/vim-fireplace'
-" Erlang plugins
-Plugin 'jimenezrick/vimerl'
-" Typescript Plugin
-Plugin 'ianks/vim-tsx'
-" Haskell
-Plugin 'neovimhaskell/haskell-vim'
+Plugin 'vim-scripts/vim-auto-save'                 " Autosave in vim
+Plugin 'tpope/vim-fugitive'                        " Git in vim
+Plugin 'sjl/gundo.vim'                             " Graphic undo
+Plugin 'kien/ctrlp.vim'                            " Fuzzy find files
+Plugin 'scrooloose/nerdtree'                       " Folder tree navigation
+Plugin 'scrooloose/nerdcommenter'                  " Easily comment code
+Plugin 'nathanaelkane/vim-indent-guides'           " Identation identification
+Plugin 'derekwyatt/vim-scala'                      " Scala sytax highlighting
+Plugin 'avakhov/vim-yaml'                          " Yaml syntax
+Plugin 'bronson/vim-trailing-whitespace'           " Hightlight trailing whitespace
+Plugin 'kien/rainbow_parentheses.vim'              " Parenthesis highlighting
+Plugin 'chiel92/vim-autoformat'                    " Autoformat
+Plugin 'ervandew/supertab'                         " Use supertab for code completion
+Plugin 'MarcWeber/vim-addon-mw-utils'              " Interprets file by extension
+Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
+Plugin 'flazz/vim-colorschemes'                    " Vim colors
+Plugin 'tpope/vim-surround'                        " Better parenthesis support
+Plugin 'itchyny/lightline.vim'                     " Better status line
+Plugin 'vim-syntastic/syntastic'                   " Sytastic sytax checking
+Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pairs
+Plugin 'terryma/vim-smooth-scroll'                 " Smooth scrolling
+Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
+Plugin 'elmcast/elm-vim'                           " Elm plugin
+Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
+Plugin 'pangloss/vim-javascript'                   " Javascript plugin
+Plugin 'tpope/vim-fireplace'                       " Clojure plugins
+Plugin 'jimenezrick/vimerl'                        " Erlang plugins
+Plugin 'ianks/vim-tsx'                             " Typescript Plugin
+Plugin 'neovimhaskell/haskell-vim'                 " Haskell
+Plugin 'elzr/vim-json'                             " Json
 
-
-call vundle#end()            " required
+call vundle#end()                                  " end of vundle plugions
 filetype plugin indent on
-
 au VimEnter * NERDTree
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-" Indent guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 let indent_guides_guide_size = 2
 hi IndentGuidesOdd ctermbg=236
 hi IndentGuidesEven ctermbg=237
-
 " Indentation for haskell
 au FileType haskell setl sw=2 sts=2 et
+au FileType json setl sw=2 sts=2 et
 
 " ================  syntastic settings ============
 
