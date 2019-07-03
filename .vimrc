@@ -131,6 +131,8 @@ Plugin 'jimenezrick/vimerl'                        " Erlang plugins
 Plugin 'ianks/vim-tsx'                             " Typescript Plugin
 Plugin 'neovimhaskell/haskell-vim'                 " Haskell
 Plugin 'elzr/vim-json'                             " Json
+Plugin 'keith/swift.vim'                           " Swift support
+Plugin 'udalov/kotlin-vim'                         " Kotlin support
 
 call vundle#end()                                  " end of vundle plugions
 filetype plugin indent on
@@ -161,6 +163,7 @@ let g:elm_syntastic_show_warnings = 1
 
 
 let g:syntastic_elixir_checkers = ['syntastic-checkers-elixir']
+let g:syntastic_swift_checkers = ['swiftpm', 'swiftlint']
 
 " ================================================ lightline =====================================================
 

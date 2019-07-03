@@ -31,11 +31,14 @@ alias gcm="git add -A && git commit -m"
 alias gfiles="git diff-tree --no-commit-id --name-only -r head"
 alias tkill="pkill -f tmux"
 
-# ssh aliases
-alias consumer-utility1="ssh consumer_deploy@consumer-data-service-utility1-emea-staging.snc1"
-alias consumer-utility2="ssh consumer_deploy@consumer-data-service-utility2-emea-staging.snc1"
-alias consumer-app1="ssh consumer_deploy@consumer-data-service-app1-emea-staging.snc1"
-
+# ideo project aliases
+alias android="cd ~/code/ideo/wilson-android"
+alias coaches="cd ~/code/ideo/wilson-coaches"
+alias content="cd ~/code/ideo/wilson-content"
+alias data="cd ~/code/ideo/wilson-data"
+alias mobile="cd ~/code/ideo/wilson-mobile"
+alias ops="cd ~/code/ideo/wilson-ops"
+alias server="cd ~/code/ideo/wilson-server"
 
 # tmuxinator aliases
 alias zagaku="tmuxinator zagaku"

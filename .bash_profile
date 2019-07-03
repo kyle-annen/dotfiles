@@ -9,11 +9,11 @@ if [ -f ~/.git-completion.bash  ]; then
     . ~/.git-completion.bash
 fi
 
+export RAILS_MASTER_KEY=69e73244961b734f5cab5137b4b07323
+
 export PATH=$PATH:~/.local/bin
 
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
-
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 parse_git_branch() {
         git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
