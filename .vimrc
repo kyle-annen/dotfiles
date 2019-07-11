@@ -71,22 +71,17 @@ let mapleader="\<Space>"
 nnoremap <Leader>u :GundoToggle<CR>
 
 "Save / Quit
-" remap save
 nnoremap <Leader>w :w<CR>
-" remap quit
 nnoremap <Leader>q :q<CR>
-" open NERDTree
 nnoremap <Leader>f :NERDTree<CR>
-" save session
 nnoremap <Leader>s :mksession<CR>
+
 " enable smooth scrolling
 noremap <silent> <c-k> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-j> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-h> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-l> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
-" Searching
-" ctlp fuzzy find
 " Ctrlp settings
 let g:ctrlp_switch_buffer = 0
 nnoremap <Leader>o :CtrlP<CR>
@@ -98,8 +93,6 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 Plugin 'vim-scripts/vim-auto-save'                 " Autosave in vim
 Plugin 'tpope/vim-fugitive'                        " Git in vim
@@ -119,20 +112,35 @@ Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
 Plugin 'flazz/vim-colorschemes'                    " Vim colors
 Plugin 'tpope/vim-surround'                        " Better parenthesis support
 Plugin 'itchyny/lightline.vim'                     " Better status line
-Plugin 'vim-syntastic/syntastic'                   " Sytastic sytax checking
 Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pairs
 Plugin 'terryma/vim-smooth-scroll'                 " Smooth scrolling
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
 Plugin 'elmcast/elm-vim'                           " Elm plugin
 Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
-Plugin 'pangloss/vim-javascript'                   " Javascript plugin
+Plugin 'slashmili/alchemist.vim'                   " Elixir plugin for ElixirSense
 Plugin 'tpope/vim-fireplace'                       " Clojure plugins
 Plugin 'jimenezrick/vimerl'                        " Erlang plugins
-Plugin 'ianks/vim-tsx'                             " Typescript Plugin
 Plugin 'neovimhaskell/haskell-vim'                 " Haskell
 Plugin 'elzr/vim-json'                             " Json
 
+" javascript
+Plugin 'pangloss/vim-javascript'                   " Javascript
+Plugin 'othree/yajs.vim'                           " javascript syntax
+Plugin 'mxw/vim-jsx'                               " JSX highlighting
+
+" typescript
+Plugin 'leafgarland/typescript-vim'                " typescript syntax highlighting
+Plugin 'ianks/vim-tsx'                             " TSX syntax highlighting
+Plugin 'Quramy/tsuquyomi'                          " Typescript IDE like functions
+
+" linting with ale
+Plugin 'w0rp/ale'                                  " Linting engine
+
 call vundle#end()                                  " end of vundle plugions
+
+" prettier setting for Typescript
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+
 filetype plugin indent on
 au VimEnter * NERDTree
 au Syntax * RainbowParenthesesLoadRound
@@ -143,49 +151,43 @@ let g:indent_guides_auto_colors = 0
 let indent_guides_guide_size = 2
 hi IndentGuidesOdd ctermbg=236
 hi IndentGuidesEven ctermbg=237
-" Indentation for haskell
-au FileType haskell setl sw=2 sts=2 et
-au FileType json setl sw=2 sts=2 et
 
-" ================  syntastic settings ============
+au FileType haskell setl sw=2 sts=2 et             " Indentation for haskell
+au FileType json setl sw=2 sts=2 et                " Indentation for json
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" ================================================ ale lint ==========================================
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'tslint'],
+\   'vue': ['eslint']
+\}
+let g:ale_fixers = {
+\    'javascript': ['eslint'],
+\    'typescript': ['prettier'],
+\    'vue': ['eslint'],
+\    'scss': ['prettier'],
+\    'html': ['prettier']
+\}
+let g:ale_fix_on_save = 1
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:elm_syntastic_show_warnings = 1
-
-
-let g:syntastic_elixir_checkers = ['syntastic-checkers-elixir']
-
-" ================================================ lightline =====================================================
+" ================================================ lightline =========================================
 
 let g:lightline = {
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'LightlineFugitive',
-      \   'filename': 'LightlineFilename',
-      \   'fileformat': 'LightlineFileformat',
-      \   'filetype': 'LightlineFiletype',
-      \   'fileencoding': 'LightlineFileencoding',
-      \   'mode': 'LightlineMode',
-      \   'ctrlpmark': 'CtrlPMark',
-      \ },
-      \ 'component_expand': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \ },
-      \ 'component_type': {
-      \   'syntastic': 'error',
-      \ },
-      \ 'subseparator': { 'left': '|', 'right': '|' }
-      \ }
+\ 'active': {
+\   'left': [ ['mode', 'paste'], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+\   'right': [ ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\ },
+\ 'component_function': {
+\   'fugitive': 'LightlineFugitive',
+\   'filename': 'LightlineFilename',
+\   'fileformat': 'LightlineFileformat',
+\   'filetype': 'LightlineFiletype',
+\   'fileencoding': 'LightlineFileencoding',
+\   'mode': 'LightlineMode',
+\   'ctrlpmark': 'CtrlPMark',
+\ },
+\ 'subseparator': { 'left': '|', 'right': '|' }
+\ }
 
 set laststatus=2
 
@@ -265,4 +267,3 @@ function! CtrlPStatusFunc_2(str)
 endfunction
 
 " ===================================== end LightLine
-"
