@@ -122,6 +122,8 @@ Plugin 'tpope/vim-fireplace'                       " Clojure plugins
 Plugin 'jimenezrick/vimerl'                        " Erlang plugins
 Plugin 'neovimhaskell/haskell-vim'                 " Haskell
 Plugin 'elzr/vim-json'                             " Json
+Plugin 'keith/swift.vim'                           " Swift support
+Plugin 'udalov/kotlin-vim'                         " Kotlin support
 
 " javascript
 Plugin 'pangloss/vim-javascript'                   " Javascript
@@ -151,6 +153,7 @@ let g:indent_guides_auto_colors = 0
 let indent_guides_guide_size = 2
 hi IndentGuidesOdd ctermbg=236
 hi IndentGuidesEven ctermbg=237
+
 
 au FileType haskell setl sw=2 sts=2 et             " Indentation for haskell
 au FileType json setl sw=2 sts=2 et                " Indentation for json

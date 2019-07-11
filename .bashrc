@@ -32,6 +32,21 @@ alias gcm="git add -A && git commit -m"
 alias gfiles="git diff-tree --no-commit-id --name-only -r head"
 alias tkill="pkill -f tmux"
 
+
+# ideo project aliases
+alias android="cd ~/code/ideo/wilson-android"
+alias coaches="cd ~/code/ideo/wilson-coaches"
+alias content="cd ~/code/ideo/wilson-content"
+alias data="cd ~/code/ideo/wilson-data"
+alias mobile="cd ~/code/ideo/wilson-mobile"
+alias ops="cd ~/code/ideo/wilson-ops"
+alias server="cd ~/code/ideo/wilson-server"
+
+# tmuxinator aliases
+alias zagaku="tmuxinator zagaku"
+alias consumer-data="tmuxinator consumer-data"
+
+
 gitignore() {
   for arg in "$@"
   do
