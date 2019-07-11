@@ -111,7 +111,6 @@ Plugin 'MarcWeber/vim-addon-mw-utils'              " Interprets file by extensio
 Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
 Plugin 'flazz/vim-colorschemes'                    " Vim colors
 Plugin 'tpope/vim-surround'                        " Better parenthesis support
-Plugin 'itchyny/lightline.vim'                     " Better status line
 Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pairs
 Plugin 'terryma/vim-smooth-scroll'                 " Smooth scrolling
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
@@ -137,6 +136,11 @@ Plugin 'Quramy/tsuquyomi'                          " Typescript IDE like functio
 
 " linting with ale
 Plugin 'w0rp/ale'                                  " Linting engine
+Plugin 'maximbaz/lightline-ale'                    " lightline ale integration
+
+" status line
+Plugin 'itchyny/lightline.vim'                     " Better status line
+
 
 call vundle#end()                                  " end of vundle plugions
 
@@ -178,7 +182,7 @@ let g:ale_fix_on_save = 1
 let g:lightline = {
 \ 'active': {
 \   'left': [ ['mode', 'paste'], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-\   'right': [ ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
 \ },
 \ 'component_function': {
 \   'fugitive': 'LightlineFugitive',
@@ -189,8 +193,26 @@ let g:lightline = {
 \   'mode': 'LightlineMode',
 \   'ctrlpmark': 'CtrlPMark',
 \ },
+\ 'component_expand': {
+\   'linter_checking': 'lightline#ale#checking',
+\   'linter_warnings': 'lightline#ale#warnings',
+\   'linter_errors': 'lightline#ale#errors',
+\   'linter_ok': 'lightline#ale#ok',
+\ },
+\ 'component_type': {
+\   'linter_checking': 'left',
+\   'linter_warnings': 'warning',
+\   'linter_errors': 'error',
+\   'linter_ok': 'left',
+\ },
 \ 'subseparator': { 'left': '|', 'right': '|' }
 \ }
+
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
+
 
 set laststatus=2
 
