@@ -3,17 +3,11 @@ set shell=/bin/bash
 
 let g:auto_save = 1                                         "Enable vim autosave
 let g:auto_save_in_insert_mode = 0                          "Set autosave to not work in insert mode
-let g:elm_format_autosave = 1                               "Enable elm format
-set clipboard=unnamed                                       "Set copy/paste to work with clipboard
+let g:elm_format_autosave = 1                               "Enable elm format set clipboard=unnamed                                       "Set copy/paste to work with clipboard
 set noswapfile                                              "Disable swap file
 set tabstop=2                                               "number of visual spaces per TAB
 set softtabstop=2                                           "number of spaces in tab when editing
 set expandtab                                               "tabs are spaces
-
-"Set indentation ruby
-:autocmd Filetype ruby set softtabstop=2
-:autocmd Filetype ruby set sw=2
-:autocmd Filetype ruby set ts=2
 
 "UI Config
 set number                                                  " show line numbers
@@ -115,14 +109,16 @@ Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pai
 Plugin 'terryma/vim-smooth-scroll'                 " Smooth scrolling
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
 Plugin 'elmcast/elm-vim'                           " Elm plugin
-Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
-Plugin 'slashmili/alchemist.vim'                   " Elixir plugin for ElixirSense
 Plugin 'tpope/vim-fireplace'                       " Clojure plugins
 Plugin 'jimenezrick/vimerl'                        " Erlang plugins
 Plugin 'neovimhaskell/haskell-vim'                 " Haskell
 Plugin 'elzr/vim-json'                             " Json
 Plugin 'keith/swift.vim'                           " Swift support
 Plugin 'udalov/kotlin-vim'                         " Kotlin support
+
+" elixir
+Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
+Plugin 'mhinz/vim-mix-format'                        " Elixir formatter
 
 " javascript
 Plugin 'pangloss/vim-javascript'                   " Javascript
@@ -158,6 +154,14 @@ let indent_guides_guide_size = 2
 hi IndentGuidesOdd ctermbg=236
 hi IndentGuidesEven ctermbg=237
 
+" ================================================ file settings ==========================================
+" mix format on save
+let g:mix_format_on_save = 1
+
+" ruby indentation
+:autocmd Filetype ruby set softtabstop=2
+:autocmd Filetype ruby set sw=2
+:autocmd Filetype ruby set ts=2
 
 au FileType haskell setl sw=2 sts=2 et             " Indentation for haskell
 au FileType json setl sw=2 sts=2 et                " Indentation for json
@@ -176,6 +180,8 @@ let g:ale_fixers = {
 \    'html': ['prettier']
 \}
 let g:ale_fix_on_save = 1
+
+let g:ale_elixir_elixir_ls_release = "/Users/kyleannen/code/open-source/elixir-ls/rel"
 
 " ================================================ lightline =========================================
 
@@ -212,7 +218,6 @@ let g:lightline#ale#indicator_checking = "\uf110"
 let g:lightline#ale#indicator_warnings = "\uf071"
 let g:lightline#ale#indicator_errors = "\uf05e"
 let g:lightline#ale#indicator_ok = "\uf00c"
-
 
 set laststatus=2
 
