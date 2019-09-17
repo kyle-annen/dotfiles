@@ -15,6 +15,10 @@ set expandtab                                               "tabs are spaces
 :autocmd Filetype ruby set sw=2
 :autocmd Filetype ruby set ts=2
 
+:autocmd Filetype elm set softtabstop=4
+:autocmd Filetype elm set sw=4
+:autocmd Filetype elm set ts=4
+
 "UI Config
 set number                                                  " show line numbers
 set showcmd                                                 " show command in bottom bar
@@ -29,10 +33,6 @@ set scrolloff=4
 set incsearch    " search as characters are entered
 set hlsearch		 " highlight matches
 
-"Folding
-"set foldenable 		 " enable folding
-"set foldlevelstart       " open most folds by default
-"set foldnestmax=10	 " 10 nested fold max
 " use alt to move lines
 nnoremap <leader>j :m .+1<CR>==
 nnoremap <leader>k :m .-2<CR>==
@@ -96,6 +96,7 @@ call vundle#begin()
 
 Plugin 'vim-scripts/vim-auto-save'                 " Autosave in vim
 Plugin 'tpope/vim-fugitive'                        " Git in vim
+Plugin 'ryanoasis/vim-devicons'                    " Icons in vim
 Plugin 'sjl/gundo.vim'                             " Graphic undo
 Plugin 'kien/ctrlp.vim'                            " Fuzzy find files
 Plugin 'scrooloose/nerdtree'                       " Folder tree navigation
@@ -115,14 +116,19 @@ Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pai
 Plugin 'terryma/vim-smooth-scroll'                 " Smooth scrolling
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
 Plugin 'elmcast/elm-vim'                           " Elm plugin
-Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
-Plugin 'slashmili/alchemist.vim'                   " Elixir plugin for ElixirSense
 Plugin 'tpope/vim-fireplace'                       " Clojure plugins
 Plugin 'jimenezrick/vimerl'                        " Erlang plugins
 Plugin 'neovimhaskell/haskell-vim'                 " Haskell
 Plugin 'elzr/vim-json'                             " Json
 Plugin 'keith/swift.vim'                           " Swift support
 Plugin 'udalov/kotlin-vim'                         " Kotlin support
+
+
+" Intellisense engine
+Plugin 'neoclide/coc.nvim'
+
+" Elixir
+Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
 
 " javascript
 Plugin 'pangloss/vim-javascript'                   " Javascript
@@ -137,6 +143,7 @@ Plugin 'Quramy/tsuquyomi'                          " Typescript IDE like functio
 " linting with ale
 Plugin 'w0rp/ale'                                  " Linting engine
 Plugin 'maximbaz/lightline-ale'                    " lightline ale integration
+Plugin 'GrzegorzKozub/vim-elixirls'                " elixir ls integration
 
 " status line
 Plugin 'itchyny/lightline.vim'                     " Better status line
@@ -162,27 +169,48 @@ hi IndentGuidesEven ctermbg=237
 au FileType haskell setl sw=2 sts=2 et             " Indentation for haskell
 au FileType json setl sw=2 sts=2 et                " Indentation for json
 
+" CoC settings
+let g:coc_node_path = '/usr/local/bin/node'
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
 " ================================================ ale lint ==========================================
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_open_list = 1
+let g:ale_elixir_elixir_ls_release = '/Users/kyleannen/code/opensource/elixir-ls/rel'
+let g:ale_fix_on_save = 1
+
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'typescript': ['tsserver', 'tslint'],
-\   'vue': ['eslint']
+\   'vue': ['eslint'],
+\   'elixir': ['elixir-ls'],
 \}
 let g:ale_fixers = {
-\    'javascript': ['eslint'],
-\    'typescript': ['prettier'],
-\    'vue': ['eslint'],
-\    'scss': ['prettier'],
-\    'html': ['prettier']
+\   'javascript': ['eslint'],
+\   'typescript': ['prettier'],
+\   'vue': ['eslint'],
+\   'scss': ['prettier'],
+\   'html': ['prettier'],
+\   'elixir': ['mix_format'],
 \}
-let g:ale_fix_on_save = 1
+
 
 " ================================================ lightline =========================================
 
 let g:lightline = {
 \ 'active': {
 \   'left': [ ['mode', 'paste'], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-\   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
 \ },
 \ 'component_function': {
 \   'fugitive': 'LightlineFugitive',
@@ -192,6 +220,8 @@ let g:lightline = {
 \   'fileencoding': 'LightlineFileencoding',
 \   'mode': 'LightlineMode',
 \   'ctrlpmark': 'CtrlPMark',
+\   'cocstatus': 'coc#status',
+\   'currentfunction': 'CocCurrentFunction'
 \ },
 \ 'component_expand': {
 \   'linter_checking': 'lightline#ale#checking',
@@ -215,6 +245,12 @@ let g:lightline#ale#indicator_ok = "\uf00c"
 
 
 set laststatus=2
+
+" coc lightline config
+
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
 
 function! LightlineModified()
   return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
