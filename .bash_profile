@@ -34,3 +34,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 alias composer="php /usr/local/bin/composer.phar"
 export PATH="/usr/local/sbin:$PATH"
+
+# pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1

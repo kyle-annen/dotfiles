@@ -22,6 +22,8 @@ set scrolloff=4
 "Searching
 set incsearch    " search as characters are entered
 set hlsearch		 " highlight matches
+"Custom ignore for ctrlp
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|_build\|deps'
 
 "Folding
 "set foldenable 		 " enable folding
@@ -90,8 +92,9 @@ call vundle#begin()
 
 Plugin 'vim-scripts/vim-auto-save'                 " Autosave in vim
 Plugin 'tpope/vim-fugitive'                        " Git in vim
+Plugin 'ryanoasis/vim-devicons'                    " Icons in vim
 Plugin 'sjl/gundo.vim'                             " Graphic undo
-Plugin 'kien/ctrlp.vim'                            " Fuzzy find files
+Plugin 'ctrlpvim/ctrlp.vim'                        " Fuzzy find files
 Plugin 'scrooloose/nerdtree'                       " Folder tree navigation
 Plugin 'scrooloose/nerdcommenter'                  " Easily comment code
 Plugin 'nathanaelkane/vim-indent-guides'           " Identation identification
@@ -106,7 +109,9 @@ Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
 Plugin 'flazz/vim-colorschemes'                    " Vim colors
 Plugin 'tpope/vim-surround'                        " Better parenthesis support
 Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pairs
-Plugin 'terryma/vim-smooth-scroll'                 " Smooth scrolling
+Plugin 'terryma/vim-smooth-scroll'                 " Smooth scroll vim
+Plugin 'luochen1990/rainbow'                       " Rainbow parens
+Plugin 'inside/vim-search-pulse'                   " Pulses search
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
 Plugin 'elmcast/elm-vim'                           " Elm plugin
 Plugin 'tpope/vim-fireplace'                       " Clojure plugins
@@ -157,6 +162,7 @@ hi IndentGuidesEven ctermbg=237
 " ================================================ file settings ==========================================
 " mix format on save
 let g:mix_format_on_save = 1
+let g:mix_format_silent_errors = 1
 
 " ruby indentation
 :autocmd Filetype ruby set softtabstop=2
@@ -165,6 +171,9 @@ let g:mix_format_on_save = 1
 
 au FileType haskell setl sw=2 sts=2 et             " Indentation for haskell
 au FileType json setl sw=2 sts=2 et                " Indentation for json
+au FileType typescript setl sw=2 sts=2 et          " Indentation for typescript
+au FileType javascript setl sw=2 sts=2 et          " Indentation for typescript
+au FileType swift setl sw=2 sts=2 et               " Indentation for swift
 
 " ================================================ ale lint ==========================================
 let g:ale_linters = {
@@ -172,16 +181,15 @@ let g:ale_linters = {
 \   'typescript': ['tsserver', 'tslint'],
 \   'vue': ['eslint']
 \}
+
 let g:ale_fixers = {
 \    'javascript': ['eslint'],
-\    'typescript': ['prettier'],
+\    'typescript': ['tslint'],
 \    'vue': ['eslint'],
 \    'scss': ['prettier'],
 \    'html': ['prettier']
 \}
 let g:ale_fix_on_save = 1
-
-let g:ale_elixir_elixir_ls_release = "/Users/kyleannen/code/open-source/elixir-ls/rel"
 
 " ================================================ lightline =========================================
 
