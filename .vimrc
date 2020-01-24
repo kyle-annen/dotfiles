@@ -1,13 +1,15 @@
 syntax enable                                               " enable syntax processing
 set shell=/bin/bash
 
-let g:auto_save = 1                                         "Enable vim autosave
-let g:auto_save_in_insert_mode = 0                          "Set autosave to not work in insert mode
-let g:elm_format_autosave = 1                               "Enable elm format set clipboard=unnamed                                       "Set copy/paste to work with clipboard
-set noswapfile                                              "Disable swap file
-set tabstop=2                                               "number of visual spaces per TAB
-set softtabstop=2                                           "number of spaces in tab when editing
-set expandtab                                               "tabs are spaces
+let g:auto_save = 1                                         " Enable vim autosave
+let g:auto_save_in_insert_mode = 0                          " Set autosave to not work in insert mode
+let g:elm_format_autosave = 1                               " Enable elm format
+
+set clipboard=unnamed                                       " Set copy/paste to work with clipboard
+set noswapfile                                              " Disable swap file
+set tabstop=2                                               " number of visual spaces per TAB
+set softtabstop=2                                           " number of spaces in tab when editing
+set expandtab                                               " tabs are spaces
 
 "UI Config
 set number                                                  " show line numbers
@@ -39,32 +41,38 @@ vnoremap <leader>k :m '<-2<CR>gv=gv
 
 "space f opens/closes nerdtree
 nnoremap <leader>f :NERDTree<CR>
+
 " dot files are shown in vim
 let NERDTreeShowHidden=1
 
 "Movement
-"move lines up and down
 " set the mouse usable in vim
 :set mouse=a
+
 " smooth mouse scrolling
 :map <C-U> <C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>
 :map <C-D> <C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E><C-E>
+
 " use cursor line in insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 " move up and down on line wrap
 nnoremap j gj
 nnoremap k gk
+
 " jk is escape
 :imap jk <esc>
+
 " enable backspace on insert mode
 set backspace=indent,eol,start
+
 " leader is space
 let mapleader="\<Space>"
 
-" toggle gundo
-nnoremap <Leader>u :GundoToggle<CR>
+" toggle undo tree
+nnoremap <Leader>u :MundoToggle<CR>
 
 "Save / Quit
 nnoremap <Leader>w :w<CR>
@@ -78,10 +86,15 @@ noremap <silent> <c-j> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-h> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-l> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
+" auto close html tags
+
 " Ctrlp settings
 let g:ctrlp_switch_buffer = 0
+
 nnoremap <Leader>o :CtrlP<CR>
 
+" Use Alchemist on spacebar-i
+inoremap <C-i> <C-X><C-o>
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -91,27 +104,35 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'vim-scripts/vim-auto-save'                 " Autosave in vim
+
+" Interface
 Plugin 'tpope/vim-fugitive'                        " Git in vim
 Plugin 'ryanoasis/vim-devicons'                    " Icons in vim
-Plugin 'sjl/gundo.vim'                             " Graphic undo
-Plugin 'ctrlpvim/ctrlp.vim'                        " Fuzzy find files
 Plugin 'scrooloose/nerdtree'                       " Folder tree navigation
-Plugin 'scrooloose/nerdcommenter'                  " Easily comment code
-Plugin 'nathanaelkane/vim-indent-guides'           " Identation identification
-Plugin 'derekwyatt/vim-scala'                      " Scala sytax highlighting
-Plugin 'avakhov/vim-yaml'                          " Yaml syntax
-Plugin 'bronson/vim-trailing-whitespace'           " Hightlight trailing whitespace
-Plugin 'kien/rainbow_parentheses.vim'              " Parenthesis highlighting
-Plugin 'chiel92/vim-autoformat'                    " Autoformat
-Plugin 'ervandew/supertab'                         " Use supertab for code completion
+Plugin 'ctrlpvim/ctrlp.vim'                        " Fuzzy find files
+Plugin 'simnalamburt/vim-mundo'                    " Undo in a tree
 Plugin 'MarcWeber/vim-addon-mw-utils'              " Interprets file by extension
 Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
+Plugin 'bronson/vim-trailing-whitespace'           " Hightlight trailing whitespace
+Plugin 'chiel92/vim-autoformat'                    " Autoformat
 Plugin 'flazz/vim-colorschemes'                    " Vim colors
-Plugin 'tpope/vim-surround'                        " Better parenthesis support
-Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pairs
+Plugin 'nathanaelkane/vim-indent-guides'           " Identation identification
+Plugin 'scrooloose/nerdcommenter'                  " Easily comment code
 Plugin 'terryma/vim-smooth-scroll'                 " Smooth scroll vim
-Plugin 'luochen1990/rainbow'                       " Rainbow parens
 Plugin 'inside/vim-search-pulse'                   " Pulses search
+
+" Autocomplete
+Plugin 'ervandew/supertab'                         " Use supertab for code completion
+
+" Parens
+Plugin 'auto-pairs-gentle'                         " Quotes/para/brackets in pairs
+Plugin 'kien/rainbow_parentheses.vim'              " Parenthesis highlighting
+Plugin 'luochen1990/rainbow'                       " Rainbow parens
+Plugin 'tpope/vim-surround'                        " Better parenthesis support
+
+" Language support
+Plugin 'derekwyatt/vim-scala'                      " Scala sytax highlighting
+Plugin 'avakhov/vim-yaml'                          " Yaml syntax
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
 Plugin 'elmcast/elm-vim'                           " Elm plugin
 Plugin 'tpope/vim-fireplace'                       " Clojure plugins
@@ -121,27 +142,26 @@ Plugin 'elzr/vim-json'                             " Json
 Plugin 'keith/swift.vim'                           " Swift support
 Plugin 'udalov/kotlin-vim'                         " Kotlin support
 
-" elixir
+" Elixir
 Plugin 'elixir-lang/vim-elixir'                    " Elixir plugin
-Plugin 'mhinz/vim-mix-format'                        " Elixir formatter
+Plugin 'mhinz/vim-mix-format'                      " Elixir formatter
 
-" javascript
+" Javascript
 Plugin 'pangloss/vim-javascript'                   " Javascript
 Plugin 'othree/yajs.vim'                           " javascript syntax
 Plugin 'mxw/vim-jsx'                               " JSX highlighting
 
-" typescript
+" Typescript
 Plugin 'leafgarland/typescript-vim'                " typescript syntax highlighting
 Plugin 'ianks/vim-tsx'                             " TSX syntax highlighting
 Plugin 'Quramy/tsuquyomi'                          " Typescript IDE like functions
 
-" linting with ale
+" Linting with ale
 Plugin 'w0rp/ale'                                  " Linting engine
 Plugin 'maximbaz/lightline-ale'                    " lightline ale integration
 
-" status line
+" Status line
 Plugin 'itchyny/lightline.vim'                     " Better status line
-
 
 call vundle#end()                                  " end of vundle plugions
 
