@@ -93,9 +93,6 @@ let g:ctrlp_switch_buffer = 0
 
 nnoremap <Leader>o :CtrlP<CR>
 
-" Use Alchemist on spacebar-i
-inoremap <C-i> <C-X><C-o>
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
