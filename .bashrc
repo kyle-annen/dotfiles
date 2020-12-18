@@ -40,30 +40,6 @@ alias tkill="pkill -f tmux"
 # postgres alias
 alias pg="psql -U postgres"
 
-# ideo project aliases
-alias android="cd ~/code/ideo/wilson-android"
-alias coach="cd ~/code/ideo/wilson-coaches"
-alias content="cd ~/code/ideo/wilson-content"
-alias data="cd ~/code/ideo/wilson-data"
-alias mobile="cd ~/code/ideo/wilson-mobile"
-alias ops="cd ~/code/ideo/wilson-ops"
-alias server="cd ~/code/ideo/wilson-server"
-alias jenkins="ssh -L 127.0.0.1:8080:localhost:8080 wilsonadmin@jenkins-ci.centralus.cloudapp.azure.com"
-
-# ideo open repo aliases
-alias wandroid="open http://github.com/ideo/wilson-android"
-alias wcoach="open http://github.com/ideo/wilson-coaches"
-alias wcontent="open http://github.com/ideo/wilson-content"
-alias wdata="open http://github.com/ideo/wilson-data"
-alias wmobile="open http://github.com/ideo/wilson-mobile"
-alias wops="open http://github.com/ideo/wilson-ops"
-alias wserver="open http://github.com/ideo/wilson-server"
-
-# tmuxinator aliases
-alias zagaku="tmuxinator zagaku"
-alias consumer-data="tmuxinator consumer-data"
-
-
 gitignore() {
   for arg in "$@"
   do
@@ -77,6 +53,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias l="ls -la"
+alias ll="ls -la"
 
 alias gitlog="git log --graph --full-history --all --color --pretty=format:'%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s'"
 
