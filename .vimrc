@@ -1,6 +1,7 @@
 syntax enable                                               " enable syntax processing
 set shell=/bin/bash
 set nospell
+set equalalways                                                      " panes always equal
 
 let g:auto_save=1                                                    " Enable vim autosave
 let g:auto_save_in_insert_mode=0                                     " Set autosave to not work in insert mode
@@ -8,6 +9,10 @@ let g:auto_save_events=["InsertLeave","TextChanged"]                 " Autosave 
 
 let g:elm_format_autosave = 1                                        " Enable elm format set clipboard=unnamed
 let vim_markdown_preview_github=1                                    " use grip for markdown preview
+
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']                   "fzf preview window
+set rtp+=/usr/local/opt/fzf
+
 set noswapfile                                                       " Disable swap file
 set tabstop=2                                                        " number of visual spaces per TAB
 set softtabstop=2                                                    " number of spaces in tab when editing
@@ -19,7 +24,7 @@ set encoding=UTF-8
 "UI Config
 set number                                                           " show line numbers
 set showcmd                                                          " show command in bottom bar
-set cursorline                                                       " highlight current line
+set cursorline                                                       " highlight current line, horizontal
 set lazyredraw                                                       " only redraw when needed
 set showmatch 		                                                   " highlight matching [{()}]
 
@@ -30,10 +35,18 @@ set scrolloff=4
 set incsearch    " search as characters are entered
 set hlsearch		 " highlight matches
 
-"Folding
-"set foldenable 		 " enable folding
-"set foldlevelstart       " open most folds by default
-"set foldnestmax=10	 " 10 nested fold max
+" vim test mappings
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
+" run vim test in a split
+let test#strategy = "neovim"
+
+" open test/src file in v split
+nnoremap <Leader>t :vertical sbuffer<CR>:TestNav<CR>
 
 " dot files are shown in vim
 let NERDTreeShowHidden=1
@@ -71,15 +84,10 @@ nnoremap <Leader>q :q<CR>
 "Nerdtree
 nnoremap <Leader>f :NERDTreeFocus<CR>
 nnoremap <Leader>s :mksession<CR>
-nnoremap <Leader>o :CtrlP<CR>
 
-" use alt to move lines
-"nnoremap <Leader>j :m .+1<CR>==
-"nnoremap <Leader>k :m .-2<CR>==
-"inoremap <Leader>j <Esc>:m .+1<CR>==gi
-"inoremap <Leader>k <Esc>:m .-2<CR>==gi
-"vnoremap <Leader>j :m '>+1<CR>gv=gv
-"vnoremap <Leader>k :m '<-2<CR>gv=gv
+"r fzf for fuzzy find
+nnoremap <Leader>o :GFiles<CR>
+nnoremap <C-p> :FZF<CR>
 
 " use leader h to format elixir
 map <Leader>h :MixFormat<CR>
@@ -90,12 +98,16 @@ noremap <silent> <c-j> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-h> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-l> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
-" Ctrlp settings
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_custom_ignore = '_build\|deps\|\.git\|DS_Store\|node_modules\|docs'
+" open split buffer with test/src (opposite) file
+nnoremap <silent> <Leader>t :vertical sbuffer <bar>:TestNav<CR>
 
+" copy to clipboard in visual mode
+vnoremap <Leader>c :w !pbcopy<CR>
+" paste from clipboard in visual mode
+vnoremap <Leader>v :r !pbpaste<CR>
 
-
+" equal size panes
+nnoremap <Leader>= :wincmd =<CR>
 
 set nocompatible
 filetype off
@@ -112,8 +124,10 @@ Plugin 'JamshedVesuna/vim-markdown-preview'        " Mardown previewer: Ctrl-p t
 
 Plugin 'kamykn/spelunker.vim'                      " Spell checking in vim
 Plugin 'kamykn/popup-menu.nvim'                    " popup for spell checker
+Plugin 'vim-test/vim-test'                         " Vim test runner
+Plugin 'davebrace/vim-testnav'                     " Vim test navigation
 
-Plugin 'ctrlpvim/ctrlp.vim'                        " Fuzzy find files
+Plugin 'junegunn/fzf.vim'                          " faster fuzzy finder (configure later)
 Plugin 'scrooloose/nerdtree'                       " Folder tree navigation
 
 Plugin 'scrooloose/nerdcommenter'                  " Easily comment code
@@ -222,7 +236,7 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'typescript': ['tsserver', 'eslint'],
 \   'vue': ['eslint'],
-\   'elixir': ['credo']
+\   'elixir': ['credo', 'dialyxir']
 \}
 
 let g:ale_fixers = {
@@ -234,12 +248,13 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
+let g:ale_elixir_credo_strict = 1
 
 " ================================================ lightline =========================================
 
 let g:lightline = {
 \ 'active': {
-\   'left': [ ['mode', 'paste'], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+\   'left': [ ['mode', 'paste'], [ 'fugitive', 'filename' ], ],
 \   'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
 \ },
 \ 'component_function': {
@@ -249,7 +264,6 @@ let g:lightline = {
 \   'filetype': 'LightlineFiletype',
 \   'fileencoding': 'LightlineFileencoding',
 \   'mode': 'LightlineMode',
-\   'ctrlpmark': 'CtrlPMark',
 \ },
 \ 'component_expand': {
 \   'linter_checking': 'lightline#ale#checking',
@@ -283,8 +297,7 @@ endfunction
 
 function! LightlineFilename()
   let fname = expand('%:t')
-  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
-        \ fname =~ 'NERD_tree' ? '' :
+  return fname =~ 'NERD_tree' ? '' :
         \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
         \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
@@ -319,33 +332,6 @@ function! LightlineMode()
   return fname == 'ControlP' ? 'CtrlP' :
         \ fname =~ 'NERD_tree' ? 'NERDTree' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
-endfunction
-
-let g:ctrlp_status_func = {
-  \ 'main': 'CtrlPStatusFunc_1',
-  \ 'prog': 'CtrlPStatusFunc_2',
-  \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
 endfunction
 
 " ===================================== end LightLine
