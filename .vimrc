@@ -122,7 +122,7 @@ Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
 Plugin 'ryanoasis/vim-devicons'                    " Icons in vim
 Plugin 'JamshedVesuna/vim-markdown-preview'        " Mardown previewer: Ctrl-p to activate, requires grip: `brew install grip`
 
-Plugin 'kamykn/spelunker.vim'                      " Spell checking in vim
+"Plugin 'kamykn/spelunker.vim'                      " Spell checking in vim
 Plugin 'kamykn/popup-menu.nvim'                    " popup for spell checker
 Plugin 'vim-test/vim-test'                         " Vim test runner
 Plugin 'davebrace/vim-testnav'                     " Vim test navigation
@@ -197,7 +197,7 @@ inoremap <silent><expr> <TAB>
       \ deoplete#manual_complete()
 
 " Spelunker Spell Checker settings ====================
-let g:enable_spelunker_vim = 1
+"let g:enable_spelunker_vim = 1
 
 
 " prettier setting for Typescript
