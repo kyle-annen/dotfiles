@@ -1,4 +1,4 @@
 # Defined interactively
-function notes
-cd ~/notes
+function code
+cd ~/code
 end

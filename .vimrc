@@ -85,9 +85,26 @@ nnoremap <Leader>q :q<CR>
 nnoremap <Leader>f :NERDTreeFocus<CR>
 nnoremap <Leader>s :mksession<CR>
 
-"r fzf for fuzzy find
+"fzf for fuzzy find
 nnoremap <Leader>o :GFiles<CR>
 nnoremap <C-p> :FZF<CR>
+
+"open files from fzf only in non NERDTree buffer
+autocmd FileType nerdtree let t:nerdtree_winnr = bufwinnr('%')
+autocmd BufWinEnter * call PreventBuffersInNERDTree()
+
+function! PreventBuffersInNERDTree()
+  if bufname('#') =~ 'NERD_tree' && bufname('%') !~ 'NERD_tree'
+    \ && exists('t:nerdtree_winnr') && bufwinnr('%') == t:nerdtree_winnr
+    \ && &buftype == '' && !exists('g:launching_fzf')
+    let bufnum = bufnr('%')
+    close
+    exe 'b ' . bufnum
+    NERDTree
+  endif
+  if exists('g:launching_fzf') | unlet g:launching_fzf | endif
+endfunction
+
 
 " use leader h to format elixir
 map <Leader>h :MixFormat<CR>
@@ -112,7 +129,7 @@ nnoremap <Leader>= :wincmd =<CR>
 set nocompatible
 filetype off
 
-set rtp+=/Users/kyleannen/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'vim-scripts/vim-auto-save'                 " Autosave in vim
@@ -122,7 +139,7 @@ Plugin 'airblade/vim-gitgutter'                    " Git info in the gutter
 Plugin 'ryanoasis/vim-devicons'                    " Icons in vim
 Plugin 'JamshedVesuna/vim-markdown-preview'        " Mardown previewer: Ctrl-p to activate, requires grip: `brew install grip`
 
-"Plugin 'kamykn/spelunker.vim'                      " Spell checking in vim
+Plugin 'kamykn/spelunker.vim'                      " Spell checking in vim
 Plugin 'kamykn/popup-menu.nvim'                    " popup for spell checker
 Plugin 'vim-test/vim-test'                         " Vim test runner
 Plugin 'davebrace/vim-testnav'                     " Vim test navigation
@@ -145,7 +162,9 @@ Plugin 'terryma/vim-smooth-scroll'                 " Smooth scroll vim
 Plugin 'luochen1990/rainbow'                       " Rainbow parens
 Plugin 'inside/vim-search-pulse'                   " Pulses search
 
+Plugin 'lifepillar/pgsql.vim'                      " Postgres SQL support
 Plugin 'vim-ruby/vim-ruby'                         " Ruby plugins
+Plugin 'tpope/vim-rails'                           " Rails plugin
 Plugin 'elmcast/elm-vim'                           " Elm plugin
 Plugin 'jimenezrick/vimerl'                        " Erlang plugins
 Plugin 'elzr/vim-json'                             " Json
